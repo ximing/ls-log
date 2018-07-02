@@ -1,0 +1,11 @@
+node_modules/**/*.js
+*.json
+dist/**/*.js
+src/lib/**/*.js
+babel/*.js
+src/login
+src/utils/uuid.js
+src/utils/WxValidate.js
+src/utils/throttle.js
+src/components/qrCode/index.js
+src/store/*.js
