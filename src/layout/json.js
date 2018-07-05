@@ -3,5 +3,5 @@
  */
 'use strict';
 export default function(logEvent) {
-    return JSON.stringify(logEvent) + '\n';
+    return logEvent;
 }

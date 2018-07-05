@@ -120,3 +120,16 @@ function formatWithOptions(inspectOptions, f) {
     }
     return str;
 }
+
+export function formatLogData(logData) {
+    let data = logData;
+    if (!Array.isArray(data)) {
+        const numArgs = arguments.length;
+        data = new Array(numArgs);
+        for (let i = 0; i < numArgs; i++) {
+            // eslint-disable-line no-plusplus
+            data[i] = arguments[i];
+        }
+    }
+    return format.apply(null, data);
+}
