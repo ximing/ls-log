@@ -1,6 +1,6 @@
 {
   "name": "ls-log",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "logger for wechat mmp or browser",
   "main": "dist/index.js",
   "directories": {
@@ -39,8 +39,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "date-format": "^1.2.0",
-    "object-inspect": "^1.6.0"
+    "date-format": "1.2.0",
+    "object-inspect": "1.6.0"
   },
   "ava": {
     "files": [
