@@ -4,7 +4,7 @@
 'use strict';
 // import inspect from 'object-inspect';
 
-var zeroize = function (value, length) {
+var zeroize = function(value, length) {
     if (!length) length = 2;
     value = String(value);
     for (var i = 0, zeros = ''; i < (length - value.length); i++) {
@@ -40,7 +40,8 @@ export function tryStringify(arg) {
             }
         }
         if (err.name === 'TypeError' && err.message === CIRCULAR_ERROR_MESSAGE) return '[Circular]';
-        throw err;
+        console.error('[ls-log]', err);
+        return 'ls error ' + err.message;
     }
 }
 
@@ -131,15 +132,18 @@ export function tryStringify(arg) {
 // }
 
 export function formatLogData(logData) {
-    return tryStringify(logData);
-    let data = logData;
-    if (!Array.isArray(data)) {
-        const numArgs = arguments.length;
-        data = new Array(numArgs);
-        for (let i = 0; i < numArgs; i++) {
-            // eslint-disable-line no-plusplus
-            data[i] = arguments[i];
-        }
+    if (Array.isArray(logData)) {
+        return logData.reduce((total, cur) => total + ` ${tryStringify(cur)}`, '');
     }
-    return format.apply(null, data);
+    return tryStringify(logData);
+    // let data = logData;
+    // if (!Array.isArray(data)) {
+    //     const numArgs = arguments.length;
+    //     data = new Array(numArgs);
+    //     for (let i = 0; i < numArgs; i++) {
+    //         // eslint-disable-line no-plusplus
+    //         data[i] = arguments[i];
+    //     }
+    // }
+    // return format.apply(null, data);
 }
