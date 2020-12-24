@@ -14,7 +14,6 @@ export default function(customLevels) {
             this.levelStr = levelStr;
             this.colour = colour;
         }
-        levels;
 
         toString() {
             return this.levelStr;

@@ -2,11 +2,20 @@
  * Created by ximing on 2018/7/2.
  */
 'use strict';
-import dateFormat from 'date-format';
-import inspect from 'object-inspect';
+// import inspect from 'object-inspect';
+
+var zeroize = function (value, length) {
+    if (!length) length = 2;
+    value = String(value);
+    for (var i = 0, zeros = ''; i < (length - value.length); i++) {
+        zeros += '0';
+    }
+    return zeros + value;
+};
 
 export function getDateStr(date) {
-    return dateFormat('yy/MM/dd hh:mm:ss.SSS', date || new Date());
+    const d = date || new Date();
+    return `${String(d.getFullYear()).substr(2)}/${zeroize(d.getMonth() + 1)}/${zeroize(d.getDate())} ${zeroize(d.getHours())}:${zeroize(d.getMinutes())}:${zeroize(d.getSeconds())}.${d.getMilliseconds()}`;
 }
 
 export function getCategory(conf, categoryName = 'default') {
@@ -35,93 +44,94 @@ export function tryStringify(arg) {
     }
 }
 
-export function format(...args) {
-    return formatWithOptions(emptyOptions, ...args);
-}
-
-function formatWithOptions(inspectOptions, f) {
-    let i, tempStr;
-    if (typeof f !== 'string') {
-        if (arguments.length === 1) return '';
-        let res = '';
-        for (i = 1; i < arguments.length - 1; i++) {
-            res += inspect(arguments[i], inspectOptions);
-            res += ' ';
-        }
-        res += inspect(arguments[i], inspectOptions);
-        return res;
-    }
-
-    if (arguments.length === 2) return f;
-
-    let str = '';
-    let a = 2;
-    let lastPos = 0;
-    for (i = 0; i < f.length - 1; i++) {
-        if (f.charCodeAt(i) === 37) {
-            // '%'
-            const nextChar = f.charCodeAt(++i);
-            if (a !== arguments.length) {
-                switch (nextChar) {
-                    case 115: // 's'
-                        tempStr = String(arguments[a++]);
-                        break;
-                    case 106: // 'j'
-                        tempStr = tryStringify(arguments[a++]);
-                        break;
-                    case 100: // 'd'
-                        tempStr = `${Number(arguments[a++])}`;
-                        break;
-                    case 79: // 'O'
-                        tempStr = inspect(arguments[a++], inspectOptions);
-                        break;
-                    case 111: {
-                        // 'o'
-                        const opts = Object.assign({}, inspectOptions, {
-                            showHidden: true,
-                            showProxy: true,
-                            depth: 4
-                        });
-                        tempStr = inspect(arguments[a++], opts);
-                        break;
-                    }
-                    case 105: // 'i'
-                        tempStr = `${parseInt(arguments[a++])}`;
-                        break;
-                    case 102: // 'f'
-                        tempStr = `${parseFloat(arguments[a++])}`;
-                        break;
-                    case 37: // '%'
-                        str += f.slice(lastPos, i);
-                        lastPos = i + 1;
-                        continue;
-                    default:
-                        // any other character is not a correct placeholder
-                        continue;
-                }
-                if (lastPos !== i - 1) str += f.slice(lastPos, i - 1);
-                str += tempStr;
-                lastPos = i + 1;
-            } else if (nextChar === 37) {
-                str += f.slice(lastPos, i);
-                lastPos = i + 1;
-            }
-        }
-    }
-    if (lastPos === 0) str = f;
-    else if (lastPos < f.length) str += f.slice(lastPos);
-    while (a < arguments.length) {
-        const x = arguments[a++];
-        if ((typeof x !== 'object' && typeof x !== 'symbol') || x === null) {
-            str += ` ${x}`;
-        } else {
-            str += ` ${inspect(x, inspectOptions)}`;
-        }
-    }
-    return str;
-}
+// export function format(...args) {
+//     return formatWithOptions(emptyOptions, ...args);
+// }
+//
+// function formatWithOptions(inspectOptions, f) {
+//     let i, tempStr;
+//     if (typeof f !== 'string') {
+//         if (arguments.length === 1) return '';
+//         let res = '';
+//         for (i = 1; i < arguments.length - 1; i++) {
+//             res += inspect(arguments[i], inspectOptions);
+//             res += ' ';
+//         }
+//         res += inspect(arguments[i], inspectOptions);
+//         return res;
+//     }
+//
+//     if (arguments.length === 2) return f;
+//
+//     let str = '';
+//     let a = 2;
+//     let lastPos = 0;
+//     for (i = 0; i < f.length - 1; i++) {
+//         if (f.charCodeAt(i) === 37) {
+//             // '%'
+//             const nextChar = f.charCodeAt(++i);
+//             if (a !== arguments.length) {
+//                 switch (nextChar) {
+//                     case 115: // 's'
+//                         tempStr = String(arguments[a++]);
+//                         break;
+//                     case 106: // 'j'
+//                         tempStr = tryStringify(arguments[a++]);
+//                         break;
+//                     case 100: // 'd'
+//                         tempStr = `${Number(arguments[a++])}`;
+//                         break;
+//                     case 79: // 'O'
+//                         tempStr = inspect(arguments[a++], inspectOptions);
+//                         break;
+//                     case 111: {
+//                         // 'o'
+//                         const opts = Object.assign({}, inspectOptions, {
+//                             showHidden: true,
+//                             showProxy: true,
+//                             depth: 4
+//                         });
+//                         tempStr = inspect(arguments[a++], opts);
+//                         break;
+//                     }
+//                     case 105: // 'i'
+//                         tempStr = `${parseInt(arguments[a++])}`;
+//                         break;
+//                     case 102: // 'f'
+//                         tempStr = `${parseFloat(arguments[a++])}`;
+//                         break;
+//                     case 37: // '%'
+//                         str += f.slice(lastPos, i);
+//                         lastPos = i + 1;
+//                         continue;
+//                     default:
+//                         // any other character is not a correct placeholder
+//                         continue;
+//                 }
+//                 if (lastPos !== i - 1) str += f.slice(lastPos, i - 1);
+//                 str += tempStr;
+//                 lastPos = i + 1;
+//             } else if (nextChar === 37) {
+//                 str += f.slice(lastPos, i);
+//                 lastPos = i + 1;
+//             }
+//         }
+//     }
+//     if (lastPos === 0) str = f;
+//     else if (lastPos < f.length) str += f.slice(lastPos);
+//     while (a < arguments.length) {
+//         const x = arguments[a++];
+//         if ((typeof x !== 'object' && typeof x !== 'symbol') || x === null) {
+//             str += ` ${x}`;
+//         } else {
+//             str += ` ${inspect(x, inspectOptions)}`;
+//         }
+//     }
+//     return str;
+// }
 
 export function formatLogData(logData) {
+    return tryStringify(logData);
     let data = logData;
     if (!Array.isArray(data)) {
         const numArgs = arguments.length;

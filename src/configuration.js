@@ -2,11 +2,10 @@
  * Created by ximing on 2018/7/2.
  */
 'use strict';
-import inspect from 'object-inspect';
 import levels from './level';
-import layouts from './layout';
+import layouts from './layout/index';
 
-import { console, wx } from './appender';
+import { console, wx } from './appender/index';
 const validColours = [
     'white',
     'grey',
@@ -64,9 +63,7 @@ export default class Configuration {
         tests.forEach((test) => {
             if (test) {
                 throw new Error(
-                    `Problem with log4js configuration: (${inspect(this.candidate, {
-                        depth: 5
-                    })})` + ` - ${message}`
+                    `Problem with log4js configuration ${message}`
                 );
             }
         });

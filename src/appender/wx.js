@@ -17,4 +17,4 @@ function configure(config, layouts) {
     return wxAppender(layout, config.send, config.timezoneOffset);
 }
 
-module.exports.configure = configure;
+export default { configure };

@@ -5,7 +5,8 @@
 import Configuration from './configuration';
 import logger from './logger';
 import levels from './level';
-import { addLayout } from './layout';
+import { getDateStr } from './util';
+import layout from './layout/index';
 
 const defaultConf = {
     appenders: {
@@ -87,7 +88,8 @@ const log4js = {
     getLogger,
     configure,
     levels: levels(),
-    addLayout: addLayout
+    getDateStr,
+    addLayout: layout.addLayout
 };
 
 export default log4js;

@@ -18,4 +18,4 @@ function configure(config, layouts) {
     return consoleAppender(layout, config.timezoneOffset);
 }
 
-module.exports.configure = configure;
+export default { configure };

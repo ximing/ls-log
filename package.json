@@ -1,6 +1,6 @@
 {
   "name": "ls-log",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "logger for wechat mmp or browser",
   "main": "dist/index.js",
   "directories": {
