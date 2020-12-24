@@ -1,6 +1,6 @@
 {
   "name": "ls-log",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "logger for wechat mmp or browser",
   "main": "dist/index.js",
   "directories": {
@@ -13,6 +13,10 @@
     "test-watch": "export NODE_ENV=test && ava --watch",
     "test": "export NODE_ENV=test && nyc ava"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "devDependencies": {
     "ava": "^0.25.0",
     "babel-core": "^6.26.0",
@@ -39,8 +43,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "date-format": "1.2.0",
-    "object-inspect": "1.6.0"
   },
   "ava": {
     "files": [
